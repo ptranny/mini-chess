@@ -1,6 +1,20 @@
 import { lookup } from './model.js'
 
 // ------------- VIEW ------------- //
+export function makeBoard(game) {
+  const board = document.getElementById('board')
+
+  for (let row = 0; row < game.board.length; row++) {
+    for (let col = 0; col < game.board.length; col++) {
+      const tile = board.appendChild(document.createElement('div'))
+      tile.classList.add('tile')
+      tile.id = row.toString() + col.toString()
+
+      if ((row + col) % 2 === 0) tile.classList.add('grey')
+    }
+  }
+}
+
 export function render(game) {
   // Move on-screen pieces based on game state
   // Create pieces if they don't already exist e.g. on first render() call

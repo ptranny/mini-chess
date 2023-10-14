@@ -1,37 +1,11 @@
-import { render } from './view.js'
-import { Game } from './model.js'
+import { makeBoard, render } from './view.js'
 
 // ---------- CONTROLLER ---------- //
 export function start(game) {
+  makeBoard(game)
   render(game)
-  bindResetButton(game)
   bindTiles(game)
   bindPieces()
-}
-
-function bindResetButton(game) {
-  document
-    .getElementById('reset')
-    .addEventListener('click', handleClick, { once: true })
-
-  function handleClick(e) {
-    game.remove()
-
-    const pieces = document.getElementsByClassName('piece')
-
-    for (const piece of pieces) {
-      piece.remove()
-    }
-
-    start(
-      new Game([
-        [null, 'bk', 'bq', null],
-        [null, null, null, null],
-        [null, null, null, null],
-        [null, 'wq', 'wk', null],
-      ])
-    )
-  }
 }
 
 function bindPieces() {
@@ -54,14 +28,6 @@ function bindTiles(game) {
   for (const tile of tiles) {
     tile.ondragover = handleDragOver
     tile.ondrop = handleDrop
-  }
-
-  // Attach a cleanup function to the game object so we can reset the board later
-  game.remove = () => {
-    for (const tile of tiles) {
-      tile.removeEventListener('dragover', handleDragOver)
-      tile.removeEventListener('drop', handleDrop)
-    }
   }
 
   // This listener allows tiles to become drop targets
