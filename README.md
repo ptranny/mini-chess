@@ -1,3 +1,8 @@
+## Running the code
+The code is in a folder called mini-chess on the shared server.
+
+To run it you'll need to right-click on index.html in VS Code and select 'Open With Live Server'. This will load the modules properly.
+
 ## Questions to think about...
 - Which part of the code is manipulating the DOM?
 - Which part of the code is NOT manipulating the DOM?
@@ -15,4 +20,4 @@
 - What might be the advantage of separating the code into these bits called model, view, and controller?
 - Can you describe what these three parts do? 
 - If you were converting this to React, which parts of the code would be replaced by React and which parts would be kept the same?
-- How could you apply the MVC pattern to other projects?
+- Could you apply the MVC pattern to other projects?
