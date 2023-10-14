@@ -1,4 +1,6 @@
 // ------------ MODEL ------------ //
+export type Coordinate = [number, number]
+
 type Piece = {
   player: string
   image: string
@@ -33,7 +35,6 @@ export const lookup: Dictionary<Piece> = {
 // The Game constructor function makes a new object that stores the state of the current game
 // State includes the position of the pieces on the board and the current active player
 type Board = (string | null)[][]
-export type Coordinate = [number, number]
 
 export class Game {
   board: Board
