@@ -2,7 +2,7 @@ import { lookup } from './model.js'
 
 // ------------- VIEW ------------- //
 export function render(game) {
-  // Move on-screen pieces to their new tiles based on game state
+  // Move on-screen pieces based on game state
   // Create pieces if they don't already exist e.g. on first render() call
   for (let row = 0; row < game.board.length; row++) {
     for (let col = 0; col < game.board.length; col++) {

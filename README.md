@@ -11,6 +11,7 @@
   - change the starting position of the pieces
   - add more types of pieces
   - add movement rules for pieces
+- Did you have to change the code in many places to change the game? Which parts didn't have to be changed at all?
 - What might be the advantage of separating the code into these bits called model, view, and controller?
 - Can you describe what these three parts do? 
 - If you were converting this to React, which parts of the code would be replaced by React and which parts would be kept the same?
