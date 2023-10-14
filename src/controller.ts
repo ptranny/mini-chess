@@ -1,7 +1,9 @@
 import { makeBoard, render } from './view.js'
+import { Game } from './model.js'
+import type { Coordinate } from './model.js'
 
 // ---------- CONTROLLER ---------- //
-export function start(game) {
+export function start(game: Game) {
   makeBoard(game)
   render(game)
   bindTiles(game)
@@ -9,7 +11,9 @@ export function start(game) {
 }
 
 function bindPieces() {
-  const pieces = document.getElementsByClassName('piece')
+  const pieces = document.getElementsByClassName(
+    'piece'
+  ) as HTMLCollectionOf<HTMLElement>
 
   for (const piece of pieces) {
     piece.ondragstart = handleDragStart
@@ -17,13 +21,15 @@ function bindPieces() {
 
   // Send the piece ID through the drag/drop API
   // This will be used later by the drop event so that we know which piece was being dragged
-  function handleDragStart(e) {
-    e.dataTransfer.setData('text/plain', e.target.id)
+  function handleDragStart(e: DragEvent) {
+    e.dataTransfer?.setData('text/plain', (e.target! as HTMLElement).id)
   }
 }
 
-function bindTiles(game) {
-  const tiles = document.getElementsByClassName('tile')
+function bindTiles(game: Game) {
+  const tiles = document.getElementsByClassName(
+    'tile'
+  ) as HTMLCollectionOf<HTMLElement>
 
   for (const tile of tiles) {
     tile.ondragover = handleDragOver
@@ -31,28 +37,29 @@ function bindTiles(game) {
   }
 
   // This listener allows tiles to become drop targets
-  function handleDragOver(e) {
+  function handleDragOver(e: DragEvent) {
     e.preventDefault()
   }
 
   // Main game loop happens here
-  function handleDrop(e) {
+  function handleDrop(e: DragEvent) {
     // Make sure the user is dropping into an empty tile
-    if (!e.currentTarget.hasChildNodes()) {
+    if (!(e.currentTarget as HTMLElement).hasChildNodes()) {
       // Get the id of the piece being moved
-      const pieceId = e.dataTransfer.getData('text/plain')
+      const pieceId = e.dataTransfer!.getData('text/plain')
 
       // Get the starting coordinates
       // String coordinates have been converted to array coordinates e.g. e.g. '00' to [0,0]
-      const currentTile = document
-        .getElementById(pieceId)
-        .parentNode.id.split('')
-        .map((element) => Number(element))
+      const currentTile = (
+        document.getElementById(pieceId)!.parentNode as HTMLElement
+      ).id
+        .split('')
+        .map((element) => Number(element)) as Coordinate
 
       // Get the coordinates where the user is attempting to drop the piece
-      const nextTile = e.currentTarget.id
+      const nextTile = (e.currentTarget as HTMLElement).id
         .split('')
-        .map((element) => Number(element))
+        .map((element: string) => Number(element)) as Coordinate
 
       // Update game state
       game.update(pieceId, currentTile, nextTile)

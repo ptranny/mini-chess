@@ -1,5 +1,15 @@
 // ------------ MODEL ------------ //
-export const lookup = {
+type Piece = {
+  player: string
+  image: string
+  rule?: (currentTile: Coordinate, nextTile: Coordinate) => boolean
+}
+
+interface Dictionary<T> {
+  [key: string]: T
+}
+
+export const lookup: Dictionary<Piece> = {
   bk: {
     player: 'black',
     image: 'images/bk.png',
@@ -22,11 +32,18 @@ export const lookup = {
 
 // The Game constructor function makes a new object that stores the state of the current game
 // State includes the position of the pieces on the board and the current active player
-export function Game(startingBoard) {
-  this.activePlayer = 'black'
-  this.board = startingBoard
+type Board = (string | null)[][]
+export type Coordinate = [number, number]
 
-  this.update = (pieceId, currentTile, nextTile) => {
+export class Game {
+  board: Board
+  activePlayer: string = 'black'
+
+  constructor(startingBoard: Board) {
+    this.board = startingBoard
+  }
+
+  update = (pieceId: string, currentTile: Coordinate, nextTile: Coordinate) => {
     // Make sure move is allowed according to the rule for the piece
     if (isLegalMove(pieceId, currentTile, nextTile)) {
       // Change state to reflect new location of the piece
@@ -42,19 +59,22 @@ export function Game(startingBoard) {
   }
 }
 
-// currentTile and nextTile are array coordinates like [0, 0]
-function isLegalMove(pieceId, currentTile, nextTile) {
+function isLegalMove(
+  pieceId: string,
+  currentTile: Coordinate,
+  nextTile: Coordinate
+) {
   // If the piece has a specific rule then return the result of that rule
   // If no specific rule exists the move is allowed by default
   return lookup[pieceId].hasOwnProperty('rule')
-    ? lookup[pieceId].rule(currentTile, nextTile)
+    ? lookup[pieceId].rule?.(currentTile, nextTile)
     : true
 }
 
 // MOVEMENT RULES
 
 // Kings can move one square in any direction
-function king(currentTile, nextTile) {
+function king(currentTile: Coordinate, nextTile: Coordinate) {
   const [currentRow, currentCol] = currentTile
   const [nextRow, nextCol] = nextTile
 

@@ -1,8 +1,8 @@
-import { lookup } from './model.js'
+import { lookup, Game } from './model.js'
 
 // ------------- VIEW ------------- //
-export function makeBoard(game) {
-  const board = document.getElementById('board')
+export function makeBoard(game: Game) {
+  const board = document.getElementById('board')!
 
   for (let row = 0; row < game.board.length; row++) {
     for (let col = 0; col < game.board.length; col++) {
@@ -15,7 +15,7 @@ export function makeBoard(game) {
   }
 }
 
-export function render(game) {
+export function render(game: Game) {
   // Move on-screen pieces based on game state
   // Create pieces if they don't already exist e.g. on first render() call
   for (let row = 0; row < game.board.length; row++) {
@@ -24,7 +24,7 @@ export function render(game) {
 
       if (pieceId) {
         const tileId = row.toString() + col.toString()
-        const tile = document.getElementById(tileId)
+        const tile = document.getElementById(tileId)!
         const piece = tile.appendChild(
           document.getElementById(pieceId) || createPiece(pieceId)
         )
@@ -45,10 +45,10 @@ export function render(game) {
   // Display active player
   document.getElementById(
     'player'
-  ).innerText = `Current player: ${game.activePlayer}`
+  )!.innerText = `Current player: ${game.activePlayer}`
 }
 
-function createPiece(pieceId) {
+function createPiece(pieceId: string) {
   const piece = document.createElement('img')
   piece.src = lookup[pieceId].image
   piece.id = pieceId
