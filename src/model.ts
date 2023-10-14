@@ -2,7 +2,7 @@
 export type Coordinate = [number, number]
 
 type Piece = {
-  player: string
+  player: 'black' | 'white'
   image: string
   rule?: (currentTile: Coordinate, nextTile: Coordinate) => boolean
 }
